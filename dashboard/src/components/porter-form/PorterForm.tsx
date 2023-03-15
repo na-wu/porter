@@ -66,7 +66,6 @@ const PorterForm: React.FC<Props> = (props) => {
     formState,
   } = useContext(PorterFormContext);
   const { currentTab, setCurrentTab } = props;
-  console.log(formData, isReadOnly, currentTab)
 
   const renderSectionField = (field: FormField, num?: number, i?: number): JSX.Element => {
     const injected = props.injectedProps?.[field.type];

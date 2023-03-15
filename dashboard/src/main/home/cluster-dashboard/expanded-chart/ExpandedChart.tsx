@@ -257,7 +257,6 @@ const ExpandedChart: React.FC<Props> = (props) => {
       ...values,
     });
 
-    console.log(values)
 
     const syncedEnvGroups = props?.metadata
       ? props?.metadata["container.env"]

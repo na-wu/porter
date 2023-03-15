@@ -74,7 +74,6 @@ const CompareSection: React.FC<CompareProps> = ({
 	}, [devOpsMode])
 
 	useEffect(() => {
-		console.log("revs moved, creating charts", rev1, rev2)
 		api
 			.getChart(
 				"<token>",
@@ -88,9 +87,7 @@ const CompareSection: React.FC<CompareProps> = ({
 				}
 			)
 			.then((res) => {
-				console.log("updating left rev chart")
 				setRev1Chart(res.data)
-				console.log(res.data)
 			})
 
 		api
@@ -106,9 +103,7 @@ const CompareSection: React.FC<CompareProps> = ({
 				}
 			)
 			.then((res) => {
-				console.log("updating right rev chart")
 				setRev2Chart(res.data)
-				console.log(res.data)
 			})
 			.catch(console.log);
 
@@ -124,7 +119,6 @@ const CompareSection: React.FC<CompareProps> = ({
 		setRev2(id)
 	}
 
-	console.log(rev1Chart, rev2Chart)
 	return (
 		<>
 			<ComparisonHeader>
