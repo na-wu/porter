@@ -11,6 +11,7 @@ import api from "shared/api";
 import StatusIndicator from "components/StatusIndicator";
 import PorterFormWrapper from "components/porter-form/PorterFormWrapper";
 import RevisionSection from "./RevisionSection";
+import CompareSection from "./CompareSection";
 import ValuesYaml from "./ValuesYaml";
 import GraphSection from "./GraphSection";
 import MetricsSection from "./metrics/MetricsSection";
@@ -192,7 +193,7 @@ const ExpandedChart: React.FC<Props> = (props) => {
           if (
             oldControllers &&
             oldControllers[object.metadata.uid]?.status?.conditions ==
-              object.status?.conditions
+            object.status?.conditions
           ) {
             return oldControllers;
           }
@@ -255,6 +256,8 @@ const ExpandedChart: React.FC<Props> = (props) => {
     const valuesYaml = yaml.dump({
       ...values,
     });
+
+    console.log(values)
 
     const syncedEnvGroups = props?.metadata
       ? props?.metadata["container.env"]
@@ -886,7 +889,7 @@ const ExpandedChart: React.FC<Props> = (props) => {
               isFullscreen={true}
               setIsFullscreen={setIsFullscreen}
               currentChart={currentChart}
-              setInitData={() => {}}
+              setInitData={() => { }}
             />
           ) : (
             <StyledExpandedChart>
@@ -950,6 +953,12 @@ const ExpandedChart: React.FC<Props> = (props) => {
                 </>
               ) : (
                 <>
+                  <CompareSection
+                    currentChart={currentChart}
+                    currentCluster={currentCluster}
+                    currentProject={currentProject}
+                    devOpsMode={devOpsMode}
+                  />
                   <RevisionSection
                     showRevisions={showRevisions}
                     toggleShowRevisions={() => {
@@ -963,7 +972,7 @@ const ExpandedChart: React.FC<Props> = (props) => {
                     shouldUpdate={
                       currentChart.latest_version &&
                       currentChart.latest_version !==
-                        currentChart.chart.metadata.version
+                      currentChart.chart.metadata.version
                     }
                     latestVersion={currentChart.latest_version}
                     upgradeVersion={handleUpgradeVersion}
@@ -1169,11 +1178,11 @@ const TabButton = styled.div`
   border-radius: 20px;
   text-shadow: 0px 0px 8px
     ${(props: { devOpsMode: boolean }) =>
-      props.devOpsMode ? "#ffffff66" : "none"};
+    props.devOpsMode ? "#ffffff66" : "none"};
   cursor: pointer;
   :hover {
     color: ${(props: { devOpsMode: boolean }) =>
-      props.devOpsMode ? "" : "#aaaabb99"};
+    props.devOpsMode ? "" : "#aaaabb99"};
   }
 
   > i {

@@ -8,16 +8,19 @@ import api from "shared/api";
 import { Context } from "shared/Context";
 
 import YamlEditor from "components/YamlEditor";
+import YamlDiffEditor from "components/YamlDiffEditor";
 import SaveButton from "components/SaveButton";
 
 type PropsType = {
   currentChart: ChartType;
+  diffWith?: ChartType;
   refreshChart: () => void;
   disabled?: boolean;
 };
 
 type StateType = {
   values: string;
+  diffValues?: string;
   saveValuesStatus: string | null;
 };
 
@@ -25,6 +28,7 @@ type StateType = {
 export default class ValuesYaml extends Component<PropsType, StateType> {
   state = {
     values: "",
+    diffValues: "",
     saveValuesStatus: null as string | null,
   };
 
@@ -34,6 +38,11 @@ export default class ValuesYaml extends Component<PropsType, StateType> {
       values = yaml.dump(this.props.currentChart.config);
     }
     this.setState({ values });
+
+    if (this.props.diffWith) {
+      const tmp = yaml.dump(this.props.diffWith.config);
+      this.setState({diffValues: tmp})
+    }
   }
 
   componentDidMount() {
@@ -96,12 +105,20 @@ export default class ValuesYaml extends Component<PropsType, StateType> {
     return (
       <StyledValuesYaml>
         <Wrapper>
+          {this.props.diffWith ? 
+          <YamlDiffEditor
+            value={[this.state.values, this.state.diffValues]}
+            onChange={(e: any) => this.setState({ values: e })}
+            readOnly={this.props.disabled}
+            height="calc(100vh - 412px)"
+          /> : 
           <YamlEditor
             value={this.state.values}
             onChange={(e: any) => this.setState({ values: e })}
             readOnly={this.props.disabled}
             height="calc(100vh - 412px)"
-          />
+          />}
+
         </Wrapper>
         {!this.props.disabled && (
           <SaveButton
